@@ -8,7 +8,7 @@ module.exports = (req, res) => {
   const token = authenticationService.authenticate(username, password);
   res.status(HttpStatusCodes.OK)
     .json({
-      shortLifeAuthenticationToken: token.accessToken,
+      shortLifeAccessToken: token.accessToken,
       ttl: token.ttl,
     })
 };

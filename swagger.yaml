@@ -1,0 +1,132 @@
+swagger: '2.0'
+info:
+  version: '1'
+  title: Two Factor Authentication Protected API Demo
+  description: |
+
+    It has been created to demonstrate an API that secured with Two Factor Authentication.
+
+schemes:
+  - 'http'
+
+consumes:
+  - application/json; charset=utf-8
+
+produces:
+  - application/json; charset=utf-8
+
+paths:
+  /v1/security/authenticate:
+    post:
+      description: "Performs authentication based on username and password"
+      tags:
+        - Security
+      parameters:
+        - name: request
+          in: body
+          description: Request data
+          required: true
+          schema:
+            $ref: '#/definitions/AuthenticationRequest'
+      responses:
+        200:
+          description: "The user has successfully authenticated"
+          schema:
+            $ref: '#/definitions/AuthenticationResponse'
+        400:
+          description: "Bad request"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /v1/security/register:
+    post:
+      description: "Performs an account registration"
+      tags:
+        - Security
+      parameters:
+        - name: request
+          in: body
+          description: Request data
+          required: true
+          schema:
+            $ref: '#/definitions/RegisterRequest'
+      responses:
+        200:
+          description: "The user has successfully registered"
+          schema:
+            $ref: '#/definitions/RegisterResponse'
+        400:
+          description: "Bad request"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /v1/admin/dashboard:
+    get:
+      description: A dummy endpoint to demostrate a secured API zone
+      tags:
+        - Admin
+      responses:
+        200:
+          description: Dummy response
+          schema:
+            $ref: '#/definitions/AdminDashboardResponse'
+
+definitions:
+  AuthenticationRequest:
+    type: object
+    properties:
+      username:
+        type: string
+        description: Name of the user to be authenticated
+      password:
+        type: string
+        description: Password of the user to be authenticated
+    required:
+      - username
+      - password
+
+  RegisterRequest:
+    type: object
+    properties:
+      username:
+        type: string
+        description: Name of the user to be registered
+      password:
+        type: string
+        description: Password of the user to be registered
+    required:
+      - username
+      - password
+
+  AuthenticationResponse:
+    type: object
+    properties:
+      shortLifeAccessToken:
+        type: string
+        description: The access token to be used when the user makes 2FA code verification
+      ttl:
+        type: number
+        description: TTL (Time-To-Live) value of the token in milliseconds
+        example: 5000
+
+  RegisterResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        description: Action status
+
+  AdminDashboardResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      dashboard:
+        type: object
+
+  ErrorResponse:
+    type: object
+    properties:
+      error:
+        type: string
+        description: The error description

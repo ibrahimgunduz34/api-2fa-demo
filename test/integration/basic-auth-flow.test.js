@@ -35,9 +35,9 @@ describe('authentication flow', function () {
           .send(request.body)
           .expect(HttpStatusCodes.OK);
 
-        should(response.body).have.properties(['shortLifeAuthenticationToken', 'ttl']);
+        should(response.body).have.properties(['shortLifeAccessToken', 'ttl']);
 
-        context['authenticatedUser'] = response.body.shortLifeAuthenticationToken;
+        context['authenticatedUser'] = response.body.shortLifeAccessToken;
       })
     });
 
