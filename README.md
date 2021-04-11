@@ -16,5 +16,6 @@ It has been created to demonstrate an API that secured with Two Factor Authentic
 * README file (In progress)
 * Enable a user's two factor authentication
 * Verify an authentication code provided by an authentication application such as Google Authenticator
- 
+* Integrate code analysis tool (jslint...)
+* Create CI pipeline 
 
