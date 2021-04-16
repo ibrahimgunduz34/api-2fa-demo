@@ -8,6 +8,6 @@ module.exports = (req, res) => {
 
   userService.createUser(username, password);
 
-  res.status(HttpStatusCodes.OK)
+  res.status(HttpStatusCodes.CREATED)
     .json({success: true})
 };

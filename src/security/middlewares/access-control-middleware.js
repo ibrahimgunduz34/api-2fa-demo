@@ -32,7 +32,15 @@ module.exports = (req, res, next) => {
     throw new BadRequestError('Invalid authorization type');
   }
 
-  authenticationService.authenticateWithToken(accessToken);
+  const authenticatedUser = authenticationService.authenticateWithToken(accessToken);
+
+  if (!req.context) {
+    req['session_context'] = {};
+  }
+
+  req['session_context'] = Object.assign(req['session_context'], {
+    userId: authenticatedUser.id,
+  });
 
   next()
 };
