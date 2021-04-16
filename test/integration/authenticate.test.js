@@ -1,3 +1,5 @@
+`use strict`;
+
 const test = require('supertest');
 const expressApp = require('../../src/app');
 const HttpStatusCodes = require('http-status-codes');
@@ -31,7 +33,7 @@ describe('Security - Authenticate Tests', function () {
     });
 
     describe('When a request received targeted to a secured area and with an access token.', function () {
-      
+
     })
   });
 

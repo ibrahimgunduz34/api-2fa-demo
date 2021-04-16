@@ -1,3 +1,5 @@
+`use strict`;
+
 const { ValidationError } = require('express-json-validator-middleware');
 const HttpStatusCodes = require('http-status-codes');
 

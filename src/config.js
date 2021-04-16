@@ -1,3 +1,5 @@
+`use strict`;
+
 module.exports = {
   APP_NAME: 'api-2fa',
   SERVER_PORT: 3000,

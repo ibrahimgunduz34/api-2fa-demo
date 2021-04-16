@@ -1,3 +1,5 @@
+`use strict`;
+
 const storage = require('../../src/storage');
 const expressApp = require('../../src/app');
 const uuid = require('uuid');

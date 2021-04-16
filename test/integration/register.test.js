@@ -1,3 +1,5 @@
+`use strict`;
+
 const test = require('supertest');
 const expressApp = require('../../src/app');
 const HttpStatusCodes = require('http-status-codes');
