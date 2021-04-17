@@ -59,11 +59,14 @@ paths:
           description: "Bad request"
           schema:
             $ref: '#/definitions/ErrorResponse'
+
   /v1/security/enable-tfa:
     post:
       description: Enable two factor authentication for the authenticated user
       tags:
         - Security
+      parameters:
+        - $ref: '#/parameters/AuthorizationHeader'
       responses:
         200:
           description: Successful response with the user TFA secret
@@ -75,6 +78,8 @@ paths:
       description: Verify the code provided by an authenticator application
       tags:
         - Security
+      parameters:
+        - $ref: '#/parameters/AuthorizationHeader'
       responses:
         200:
           description: Successful response with an access token to be used in the further requests.
@@ -86,6 +91,8 @@ paths:
       description: A dummy endpoint to demostrate a secured API zone
       tags:
         - Admin
+      parameters:
+        - $ref: '#/parameters/AuthorizationHeader'
       responses:
         200:
           description: Dummy response
@@ -135,7 +142,6 @@ definitions:
           - authorized
           - 2fa
 
-
   RegisterResponse:
     type: object
     properties:
@@ -180,3 +186,10 @@ definitions:
         enum:
           - authorized
           - 2fa
+
+parameters:
+  AuthorizationHeader:
+    in: header
+    name: Authorization
+    type: string
+    x-example: "bearer b6cddbe4-8823-4cdb-9150-f0209d67c720
