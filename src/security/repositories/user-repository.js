@@ -3,20 +3,27 @@
 const storage = require('../../storage');
 const uuid = require('uuid');
 
-exports.findOneByUserCredentials = (username, password) => {
+function findOneByUserCredentials(username, password) {
 	return storage.users.find(row => row.username === username && row.password === password);
-};
+}
 
-exports.findOneByName = (username) => {
+function findOneByName(username) {
 	return storage.users.find(row => row.username === username);
-};
+}
 
-exports.create = (username, password) => {
+function create(username, password) {
 	const row = {id: uuid.v4(), username, password};
 	storage.users.push(row);
 	return row;
-};
+}
 
-exports.findOneById = (userId) => {
+function findOneById(userId) {
 	return storage.users.find(row => row.id === userId);
+}
+
+module.exports = {
+	findOneByUserCredentials,
+	findOneByName,
+	create,
+	findOneById,
 };

@@ -5,7 +5,7 @@ const { createCipheriv, createDecipheriv, randomBytes } = require('crypto');
 const ENCRYPTION_ALGORITHM = 'aes-256-gcm';
 const IV_RANDOM_BYTES_LENGTH = 12;
 
-exports.encrypt = (secretKey, value) => {
+function encrypt(secretKey, value) {
   const iv = Buffer.from(randomBytes(IV_RANDOM_BYTES_LENGTH));
   const encryptionKey = Buffer.from(secretKey);
   const cipher = createCipheriv(ENCRYPTION_ALGORITHM, encryptionKey, iv);
@@ -16,9 +16,9 @@ exports.encrypt = (secretKey, value) => {
     cipher.getAuthTag(),
   ]);
   return encrypted.toString('base64');
-};
+}
 
-exports.decrypt = (secretKey, value) => {
+function decrypt(secretKey, value) {
   const buffer = Buffer.from(value, 'base64');
   const iv = buffer.slice(0, 12);
   const authTag = buffer.slice(-16);
@@ -31,4 +31,9 @@ exports.decrypt = (secretKey, value) => {
   const final = decipher.final('utf8');
 
   return output + final;
+}
+
+module.exports = {
+  encrypt,
+  decrypt,
 };

@@ -8,7 +8,7 @@ const cryptoService = require('./crypto-service');
 // const ACCESS_TYPE_2FA = '2fa';
 const ACCESS_TYPE_AUTHORIZED = 'authorized';
 
-exports.authenticate = (username, password) => {
+function authenticate(username, password) {
   const user = userRepository.findOneByName(username);
 
   if (!user) {
@@ -22,9 +22,9 @@ exports.authenticate = (username, password) => {
   // TODO: Check if the user is active
   // TODO: access_type to be replaced with ACCESS_TYPE_2FA after 2fa implementation
   return accessTokenRespository.create(user.id, config.LONG_LIFE_TOKEN_TTL, ACCESS_TYPE_AUTHORIZED);
-};
+}
 
-exports.authenticateWithToken = (token) => {
+function authenticateWithToken(token) {
   const accessToken = accessTokenRespository.findOneByToken(token);
 
   if (!accessToken) {
@@ -38,4 +38,9 @@ exports.authenticateWithToken = (token) => {
   // TODO: Check if the user is active
 
   return userRepository.findOneById(accessToken.userId);
+}
+
+module.exports = {
+  authenticate,
+  authenticateWithToken
 };
