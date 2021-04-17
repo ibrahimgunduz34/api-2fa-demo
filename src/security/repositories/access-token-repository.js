@@ -3,11 +3,11 @@
 const storage = require('../../storage');
 const uuid = require('uuid');
 
-exports.findOneByToken = (token) => {
+function findOneByToken(token) {
 	return storage.access_tokens.find(row => row.accessToken === token);
-};
+}
 
-exports.create = (userId, ttl, accessType) => {
+function create(userId, ttl, accessType) {
 	const token = {
 		userId: userId,
 		accessToken: uuid.v4(),
@@ -19,4 +19,9 @@ exports.create = (userId, ttl, accessType) => {
 	storage.access_tokens.push(token);
 
 	return token;
+}
+
+module.exports = {
+	findOneByToken,
+	create,
 };
