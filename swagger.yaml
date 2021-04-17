@@ -101,9 +101,9 @@ definitions:
   AuthenticationResponse:
     type: object
     properties:
-      shortLifeAccessToken:
+      accessToken:
         type: string
-        description: The access token to be used when the user makes 2FA code verification
+        description: The access token to be used in the authorization request headers
       ttl:
         type: number
         description: TTL (Time-To-Live) value of the token in milliseconds

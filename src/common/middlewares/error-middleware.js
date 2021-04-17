@@ -2,8 +2,7 @@
 
 const { ValidationError } = require('express-json-validator-middleware');
 const HttpStatusCodes = require('http-status-codes');
-
-const { UnauthorizedError, BadRequestError } = require('../exceptions')
+const { UnauthorizedError, BadRequestError } = require('../exceptions');
 
 module.exports = (err, req, res, next) => {
   if (res.headersSent) {

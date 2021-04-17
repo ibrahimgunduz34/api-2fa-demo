@@ -78,4 +78,39 @@ module.exports = class RequestBuilder {
       }
     }
   }
+
+  static createInvalidTfaVerificationRequestWithMissingAuthorizationHeader() {
+    return {
+      url: '/v1/security/verify-tfa-code',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        code: '123456'
+      }
+    }
+  }
+
+  static createInvalidTfaVerificationRequestWithMissingVerificationCode(token) {
+    return {
+      url: '/v1/security/verify-tfa-code',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + token,
+      }
+    }
+  }
+
+  static createVerificationRequest(token, code) {
+    return {
+      url: '/v1/security/verify-tfa-code',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + token,
+      },
+      body: {
+        code: code,
+      }
+    }
+  }
 };

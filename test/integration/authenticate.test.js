@@ -5,13 +5,14 @@ const expressApp = require('../../src/app');
 const HttpStatusCodes = require('http-status-codes');
 const should = require('should');
 const RequestBuilder = require('./utils/request-builder');
-const { createMockUserWithAccessToken } = require('./utils/mock-data-provider');
+const MockDataProvider = require('./utils/mock-data-provider');
+const { ACCESS_TYPE_AUTHORIZED, ACCESS_TYPE_2FA } = require('../../src/security/access-type');
 
 describe('Security - Authenticate Tests', function () {
   describe('Positive flow', function () {
     describe('When a valid authenticate request received', async function () {
       it('should return a successfull response with an access token and HTTP/200 status code  ', async function () {
-        const mockUser = createMockUserWithAccessToken(Date.now(), 300);
+        const mockUser = MockDataProvider.createMockUserWithAccessToken(Date.now(), 300, ACCESS_TYPE_AUTHORIZED);
 
         const authenticateRequest = RequestBuilder.createAuthenticateRequest(mockUser.username, 'mypassword');
 
@@ -21,7 +22,25 @@ describe('Security - Authenticate Tests', function () {
           .send(authenticateRequest.body)
           .expect(HttpStatusCodes.OK);
 
-        should(authenticateResponse.body).have.properties(['shortLifeAccessToken', 'ttl'])
+        should(authenticateResponse.body).have.properties(['accessToken', 'ttl', 'accessType']);
+        should(authenticateResponse.body.accessType).be.eql(ACCESS_TYPE_AUTHORIZED);
+      })
+    });
+
+    describe('When a valid authenticate request received with a user TFA enabled', async function () {
+      it('should return a successfull response with an access token and HTTP/200 status code  ', async function () {
+        const mockUser = MockDataProvider.createMockUserThatTfaEnabled(ACCESS_TYPE_2FA);
+
+        const authenticateRequest = RequestBuilder.createAuthenticateRequest(mockUser.username, 'mypassword');
+
+        const authenticateResponse = await test(expressApp)
+          .post(authenticateRequest.url)
+          .set(authenticateRequest.headers)
+          .send(authenticateRequest.body)
+          .expect(HttpStatusCodes.OK);
+
+        should(authenticateResponse.body).have.properties(['accessToken', 'ttl', 'accessType']);
+        should(authenticateResponse.body.accessType).be.eql(ACCESS_TYPE_2FA);
       })
     });
   });
