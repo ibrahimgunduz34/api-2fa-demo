@@ -3,6 +3,30 @@
 ## Introcution
 It has been created to demonstrate an API that secured with Two Factor Authentication.
 
+## Requirements
+* NodeJS
+
+## How To Run The Application 
+Install the application dependencies including dev dependencies.
+
+```shell
+$ npm install
+```
+
+In order to start the application run the following command
+
+```shell 
+$ npm start
+```
+
+## API Endpoints
+Please check `swagger.yaml` file.
+
+## How To Run Tests
+```shell 
+$ npm run test
+```
+
 ## TODOs:
 * ~~Incoming requrest validation~~
 * ~~Registration~~

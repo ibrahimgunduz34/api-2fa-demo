@@ -59,6 +59,27 @@ paths:
           description: "Bad request"
           schema:
             $ref: '#/definitions/ErrorResponse'
+  /v1/security/enable-tfa:
+    post:
+      description: Enable two factor authentication for the authenticated user
+      tags:
+        - Security
+      responses:
+        200:
+          description: Successful response with the user TFA secret
+          schema:
+            $ref: '#/definitions/EnableTwoFactorAuthenticationResponse'
+
+  /v1/security/verify-tfa-code:
+    post:
+      description: Verify the code provided by an authenticator application
+      tags:
+        - Security
+      responses:
+        200:
+          description: Successful response with an access token to be used in the further requests.
+          schema:
+            $ref: '#/definitions/VerifyTwoFactorAuthenticationCodeResponse'
 
   /v1/admin/dashboard:
     get:
@@ -108,6 +129,12 @@ definitions:
         type: number
         description: TTL (Time-To-Live) value of the token in milliseconds
         example: 5000
+      access_type:
+        type: string
+        enum:
+          - authorized
+          - 2fa
+
 
   RegisterResponse:
     type: object
@@ -130,3 +157,26 @@ definitions:
       error:
         type: string
         description: The error description
+
+  EnableTwoFactorAuthenticationResponse:
+    type: object
+    properties:
+      userSecretKey:
+        type: string
+        description: The user secret to be used in an authenticator application
+
+  VerifyTwoFactorAuthenticationCodeResponse:
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: The access token to be used in the authorization request headers
+      ttl:
+        type: number
+        description: TTL (Time-To-Live) value of the token in milliseconds
+        example: 5000
+      access_type:
+        type: string
+        enum:
+          - authorized
+          - 2fa
