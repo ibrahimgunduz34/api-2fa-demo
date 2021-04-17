@@ -10,6 +10,6 @@ const { validate } = new Validator({ allErrors: true });
 
 router.route('/authenticate').post(validate({body: authenticateSchema}), authenticate);
 router.route('/register').post(validate({body: registerSchema}), register);
-router.route('/enable-2fa').post(enableTwoFactorAuthentication);
+router.route('/enable-tfa').post(enableTwoFactorAuthentication);
 
 module.exports = router;

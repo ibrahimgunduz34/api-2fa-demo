@@ -2,5 +2,6 @@
 
 module.exports = {
 	users: [],
-	access_tokens: []
+	access_tokens: [],
+	tfa_secret_keys: [],
 };
