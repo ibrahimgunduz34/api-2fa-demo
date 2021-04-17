@@ -59,4 +59,23 @@ module.exports = class RequestBuilder {
       }
     }
   }
+
+  static createEnableTfaRequest(token) {
+    return {
+      url: '/v1/security/enable-tfa',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + token,
+      }
+    }
+  }
+
+  static createInvalidEnableTfaRequestWithMissingAuthorizationHeader() {
+    return {
+      url: '/v1/security/enable-tfa',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }
+  }
 };
