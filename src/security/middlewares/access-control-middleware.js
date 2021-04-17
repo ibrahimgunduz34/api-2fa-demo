@@ -2,8 +2,10 @@
 
 const { authenticationService } = require('../services');
 const { BadRequestError, UnauthorizedError } = require('../../common/exceptions');
+const { ACCESS_TYPE_2FA } = require('./../access-type');
 
 const ACCESS_TOKEN_KEY= 'authorization';
+const TFA_VERIFICATION_PATH = '/v1/security/verify-tfa-code';
 
 module.exports = (req, res, next) => {
   const nonSecuredContext = [
@@ -34,12 +36,16 @@ module.exports = (req, res, next) => {
 
   const authenticatedUser = authenticationService.authenticateWithToken(accessToken);
 
+  if (req.path !== TFA_VERIFICATION_PATH && authenticatedUser.accessType === ACCESS_TYPE_2FA) {
+    throw new UnauthorizedError('Unauthorized access');
+  }
+
   if (!req.context) {
     req['session_context'] = {};
   }
 
   req['session_context'] = Object.assign(req['session_context'], {
-    userId: authenticatedUser.id,
+    userId: authenticatedUser.userId,
   });
 
   next()

@@ -16,6 +16,11 @@ function create(userId, secretKey) {
   return row;
 }
 
+function findOneByUserId(userId) {
+  return storage.tfa_secret_keys.find(row => row.userId === userId && row.cancelled === 0);
+}
+
 module.exports = {
   create,
+  findOneByUserId,
 };

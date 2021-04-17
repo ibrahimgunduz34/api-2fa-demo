@@ -4,9 +4,7 @@ const { userRepository, accessTokenRespository } = require('./../repositories');
 const config = require('../../config');
 const { NoUserExistError, InvalidAccessTokenError } = require('../exceptions');
 const cryptoService = require('./crypto-service');
-
-// const ACCESS_TYPE_2FA = '2fa';
-const ACCESS_TYPE_AUTHORIZED = 'authorized';
+const { ACCESS_TYPE_2FA, ACCESS_TYPE_AUTHORIZED } = require('../access-type');
 
 function authenticate(username, password) {
   const user = userRepository.findOneByName(username);
@@ -19,9 +17,15 @@ function authenticate(username, password) {
     throw new NoUserExistError('Invalid username or password.');
   }
 
+  const accessTokenTtl = user.isTfaEnabled ? config.SHORT_LIFE_TOKEN_TTL : config.LONG_LIFE_TOKEN_TTL;
+  const accessType = user.isTfaEnabled ? ACCESS_TYPE_2FA : ACCESS_TYPE_AUTHORIZED;
+
   // TODO: Check if the user is active
-  // TODO: access_type to be replaced with ACCESS_TYPE_2FA after 2fa implementation
-  return accessTokenRespository.create(user.id, config.LONG_LIFE_TOKEN_TTL, ACCESS_TYPE_AUTHORIZED);
+  // if (user.isEnabled) {
+  //   throw new UserInactiveError('The user is not active');
+  // }
+
+  return accessTokenRespository.create(user.id, accessTokenTtl, accessType);
 }
 
 function authenticateWithToken(token) {
@@ -35,9 +39,17 @@ function authenticateWithToken(token) {
     throw new InvalidAccessTokenError('The token is not valid anymore');
   }
 
+  const user = userRepository.findOneById(accessToken.userId);
   // TODO: Check if the user is active
+  // if (user.isEnabled) {
+  //   throw new UserInactiveError('The user is not active');
+  // }
 
-  return userRepository.findOneById(accessToken.userId);
+  return {
+    userId: user.id,
+    accessType: accessToken.accessType,
+    username: user.username,
+  }
 }
 
 module.exports = {

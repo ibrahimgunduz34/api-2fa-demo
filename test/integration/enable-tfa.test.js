@@ -5,13 +5,14 @@ const expressApp = require('../../src/app');
 const HttpStatusCodes = require('http-status-codes');
 const should = require('should');
 const RequestBuilder = require('./utils/request-builder');
-const { createMockUserWithAccessToken, createMockUserThatTfaEnabled } = require('./utils/mock-data-provider');
+const MockDataProvider = require('./utils/mock-data-provider');
+const { ACCESS_TYPE_AUTHORIZED } = require('../../src/security/access-type');
 
 describe('Security - Enable Two Factor Authentication Tests', function () {
   describe('Positive flow', function () {
     describe('When an enable tfa request received with a valid access token in the request headers', function () {
       it('should return a successful response with a user specific secret key to be used in an authenticator app.', async function () {
-        const mockUser = createMockUserWithAccessToken(Date.now(), 300);
+        const mockUser = MockDataProvider.createMockUserWithAccessToken(Date.now(), 300, ACCESS_TYPE_AUTHORIZED);
         const enableTfaRequest = RequestBuilder.createEnableTfaRequest(mockUser.accessToken);
 
         const apiResponse = await test(expressApp)
@@ -47,7 +48,7 @@ describe('Security - Enable Two Factor Authentication Tests', function () {
 
     describe('When an enable tfa request received for a user that is already enabled tfa', function () {
       it('should return an error response with HTTP/400 status code', async function () {
-        const mockUser = createMockUserThatTfaEnabled();
+        const mockUser = MockDataProvider.createMockUserThatTfaEnabled(ACCESS_TYPE_AUTHORIZED);
         const enableTfaRequest = RequestBuilder.createEnableTfaRequest(mockUser.accessToken);
 
         const expectedResponseBody = {

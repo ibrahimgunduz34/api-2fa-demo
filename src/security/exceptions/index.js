@@ -5,4 +5,5 @@ module.exports = {
   InvalidAccessTokenError: require('./invalid-access-token-error'),
   UserAlreadyExistError: require('./user-already-exist-error'),
   TfaAlreadyEnabledError: require('./tfa-already-enabled-error'),
+  TfaCodeVerificationError: require('./tfa-code-verification-error'),
 };
