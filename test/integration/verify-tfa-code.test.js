@@ -1,6 +1,6 @@
 `use strict`;
 
-const test = require('supertest');
+const superTest = require('supertest');
 const { authenticator } = require('otplib');
 const expressApp = require('../../src/app');
 const RequestBuilder = require('./utils/request-builder');
@@ -22,7 +22,7 @@ describe('Security - Verify Two Factor Authentication Code Tests', function () {
           .withArgs({token: mockVerificationCode, secret: secretKey})
           .returns(true);
 
-        const apiResponse = await test(expressApp)
+        const apiResponse = await superTest(expressApp)
           .post(verificationRequest.url)
           .set(verificationRequest.headers)
           .send(verificationRequest.body)
@@ -46,7 +46,7 @@ describe('Security - Verify Two Factor Authentication Code Tests', function () {
           error: "You cannot access a secured area without access token"
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(verificationRequest.url)
           .set(verificationRequest.headers)
           .send(verificationRequest.body)
@@ -77,7 +77,7 @@ describe('Security - Verify Two Factor Authentication Code Tests', function () {
           }
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(verificationRequest.url)
           .set(verificationRequest.headers)
           .send(verificationRequest.body)
@@ -99,7 +99,7 @@ describe('Security - Verify Two Factor Authentication Code Tests', function () {
           error: "Invalid verification code"
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(verificationRequest.url)
           .set(verificationRequest.headers)
           .send(verificationRequest.body)

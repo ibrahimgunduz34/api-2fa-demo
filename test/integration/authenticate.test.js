@@ -1,6 +1,6 @@
 `use strict`;
 
-const test = require('supertest');
+const superTest = require('supertest');
 const expressApp = require('../../src/app');
 const HttpStatusCodes = require('http-status-codes');
 const should = require('should');
@@ -10,13 +10,13 @@ const { ACCESS_TYPE_AUTHORIZED, ACCESS_TYPE_2FA } = require('../../src/security/
 
 describe('Security - Authenticate Tests', function () {
   describe('Positive flow', function () {
-    describe('When a valid authenticate request received', async function () {
+    describe('When a valid authenticate request received', function () {
       it('should return a successfull response with an access token and HTTP/200 status code  ', async function () {
         const mockUser = MockDataProvider.createMockUserWithAccessToken(Date.now(), 300, ACCESS_TYPE_AUTHORIZED);
 
         const authenticateRequest = RequestBuilder.createAuthenticateRequest(mockUser.username, 'mypassword');
 
-        const authenticateResponse = await test(expressApp)
+        const authenticateResponse = await superTest(expressApp)
           .post(authenticateRequest.url)
           .set(authenticateRequest.headers)
           .send(authenticateRequest.body)
@@ -27,13 +27,13 @@ describe('Security - Authenticate Tests', function () {
       })
     });
 
-    describe('When a valid authenticate request received with a user TFA enabled', async function () {
+    describe('When a valid authenticate request received with a user TFA enabled', function () {
       it('should return a successfull response with an access token and HTTP/200 status code  ', async function () {
         const mockUser = MockDataProvider.createMockUserThatTfaEnabled(ACCESS_TYPE_2FA);
 
         const authenticateRequest = RequestBuilder.createAuthenticateRequest(mockUser.username, 'mypassword');
 
-        const authenticateResponse = await test(expressApp)
+        const authenticateResponse = await superTest(expressApp)
           .post(authenticateRequest.url)
           .set(authenticateRequest.headers)
           .send(authenticateRequest.body)
@@ -66,7 +66,7 @@ describe('Security - Authenticate Tests', function () {
           }
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(authenticateRequest.url)
           .set(authenticateRequest.headers)
           .send(authenticateRequest.body)
@@ -94,7 +94,7 @@ describe('Security - Authenticate Tests', function () {
           }
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(authenticateRequest.url)
           .set(authenticateRequest.headers)
           .send(authenticateRequest.body)
@@ -110,7 +110,7 @@ describe('Security - Authenticate Tests', function () {
           error: "Invalid username or password."
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(authenticateRequest.url)
           .set(authenticateRequest.headers)
           .send(authenticateRequest.body)

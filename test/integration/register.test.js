@@ -1,6 +1,6 @@
 `use strict`;
 
-const test = require('supertest');
+const superTest = require('supertest');
 const expressApp = require('../../src/app');
 const HttpStatusCodes = require('http-status-codes');
 const RequestBuilder = require('./utils/request-builder');
@@ -15,7 +15,7 @@ describe('Security - Register Tests', function () {
 
         const expectedResponseBody = { success: true };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(request.url)
           .set(request.headers)
           .send(request.body)
@@ -45,7 +45,7 @@ describe('Security - Register Tests', function () {
           }
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(request.url)
           .set(request.headers)
           .send(request.body)
@@ -73,7 +73,7 @@ describe('Security - Register Tests', function () {
           }
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(request.url)
           .set(request.headers)
           .send(request.body)
@@ -86,7 +86,7 @@ describe('Security - Register Tests', function () {
         const username = `myuser-${uuid.v4()}`;
         const request = RequestBuilder.createRegisterRequest(username, 'mypassword');
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(request.url)
           .set(request.headers)
           .send(request.body)
@@ -96,7 +96,7 @@ describe('Security - Register Tests', function () {
           error: "The user already exists."
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(request.url)
           .set(request.headers)
           .send(request.body)

@@ -1,6 +1,6 @@
 `use strict`;
 
-const test = require('supertest');
+const superTest = require('supertest');
 const expressApp = require('../../src/app');
 const HttpStatusCodes = require('http-status-codes');
 const should = require('should');
@@ -15,7 +15,7 @@ describe('Security - Enable Two Factor Authentication Tests', function () {
         const mockUser = MockDataProvider.createMockUserWithAccessToken(Date.now(), 300, ACCESS_TYPE_AUTHORIZED);
         const enableTfaRequest = RequestBuilder.createEnableTfaRequest(mockUser.accessToken);
 
-        const apiResponse = await test(expressApp)
+        const apiResponse = await superTest(expressApp)
           .post(enableTfaRequest.url)
           .set(enableTfaRequest.headers)
           .send()
@@ -38,7 +38,7 @@ describe('Security - Enable Two Factor Authentication Tests', function () {
           error: "You cannot access a secured area without access token"
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .post(enableTfaRequest.url)
           .set(enableTfaRequest.headers)
           .send()
@@ -55,7 +55,7 @@ describe('Security - Enable Two Factor Authentication Tests', function () {
           error: 'Two factor authentication is already enabled for the user'
         };
 
-        const apiResponse = await test(expressApp)
+        await superTest(expressApp)
           .post(enableTfaRequest.url)
           .set(enableTfaRequest.headers)
           .send()
