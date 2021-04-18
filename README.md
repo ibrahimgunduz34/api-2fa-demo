@@ -59,6 +59,6 @@ $ npm run test
 * Generate QR code to be used by the authenticator applications
 * Update the 2FA enabler endpoint as it's gonna return the qr code image url instead of key
 * Update the integration tests
-* Integrate code analysis tool (jslint...)
-* Create CI pipeline 
+* ~~Integrate code analysis tool (jslint...)~~
+* ~~Create CI pipeline~~ 
 
