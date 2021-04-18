@@ -1,7 +1,7 @@
 `use strict`;
 
 const expressApp = require('../../src/app');
-const test = require('supertest');
+const superTest = require('supertest');
 const RequestBuilder = require('./utils/request-builder');
 const HttpStatusCodes = require('http-status-codes');
 const MockDataProvider = require('./utils/mock-data-provider');
@@ -16,7 +16,7 @@ describe('Security - Access Control Tests', function () {
         const retrieveAdminDashboardRequest = RequestBuilder
           .createValidRetrieveAdminDashboardRequest(mockUser.accessToken);
 
-        await test(expressApp)
+        await superTest(expressApp)
           .get(retrieveAdminDashboardRequest.url)
           .set(retrieveAdminDashboardRequest.headers)
           .send(retrieveAdminDashboardRequest.body)
@@ -35,7 +35,7 @@ describe('Security - Access Control Tests', function () {
           error: "You cannot access a secured area without access token"
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .get(retrieveAdminDashboardRequest.url)
           .set(retrieveAdminDashboardRequest.headers)
           .send(retrieveAdminDashboardRequest.body)
@@ -52,7 +52,7 @@ describe('Security - Access Control Tests', function () {
           error: "No token found."
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .get(retrieveAdminDashboardRequest.url)
           .set(retrieveAdminDashboardRequest.headers)
           .send(retrieveAdminDashboardRequest.body)
@@ -69,7 +69,7 @@ describe('Security - Access Control Tests', function () {
           error: "Invalid authorization header"
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .get(retrieveAdminDashboardRequest.url)
           .set(retrieveAdminDashboardRequest.headers)
           .send(retrieveAdminDashboardRequest.body)
@@ -86,7 +86,7 @@ describe('Security - Access Control Tests', function () {
           error: "Invalid authorization type"
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .get(retrieveAdminDashboardRequest.url)
           .set(retrieveAdminDashboardRequest.headers)
           .send(retrieveAdminDashboardRequest.body)
@@ -105,7 +105,7 @@ describe('Security - Access Control Tests', function () {
         const retrieveAdminDashboardRequest = RequestBuilder
           .createValidRetrieveAdminDashboardRequest(mockUser.accessToken);
 
-        await test(expressApp)
+        await superTest(expressApp)
           .get(retrieveAdminDashboardRequest.url)
           .set(retrieveAdminDashboardRequest.headers)
           .send(retrieveAdminDashboardRequest.body)
@@ -124,7 +124,7 @@ describe('Security - Access Control Tests', function () {
           error: "Unauthorized access",
         };
 
-        await test(expressApp)
+        await superTest(expressApp)
           .get(retrieveAdminDashboardRequest.url)
           .set(retrieveAdminDashboardRequest.headers)
           .send(retrieveAdminDashboardRequest.body)
